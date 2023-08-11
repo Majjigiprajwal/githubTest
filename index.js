@@ -7,7 +7,6 @@
 var lists = document.getElementsByClassName('list-group-item');
 
 
-lists[2].style.background="green";
 for(let i=0;i<lists.length;i++){
     lists[i].style.fontWeight="bold";
 }
@@ -24,3 +23,13 @@ newList.style.border="0.5px solid grey";
 
 var newLists = document.getElementsByTagName('li');
 newLists[4].style.background="yellow";
+
+var queryList = document.querySelectorAll('li');
+queryList[1].style.background="green";
+queryList[2].style.display="none";
+
+var odd = document.querySelectorAll("li:nth-child(odd");
+
+for(let i=0;i<odd.length;i++){
+    odd[i].style.background="green";
+}
