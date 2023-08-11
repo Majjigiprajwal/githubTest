@@ -1,83 +1,77 @@
-console.log(document.domain);
-console.log(document.URL);
-console.log(document.head);
-console.log(document.body);
-console.log(document.title);
+var form = document.getElementById('addForm');
+var itemList = document.getElementById('items');
+var filter = document.getElementById('filter');
 
-var lists = document.getElementsByClassName('list-group-item');
+// Form submit event
+form.addEventListener('submit', addItem);
+// Delete event
+itemList.addEventListener('click', removeItem);
+// Filter event
+filter.addEventListener('keyup', filterItems);
 
+// Add item
+function addItem(e){
+  e.preventDefault();
 
-for(let i=0;i<lists.length;i++){
-    lists[i].style.fontWeight="bold";
+  // Get input value
+  var newItem = document.getElementById('item').value;
+
+  // Create new li element
+  var li = document.createElement('li');
+  // Add class
+  li.className = 'list-group-item';
+  // Add text node with input value
+  li.appendChild(document.createTextNode(newItem));
+
+  // Create del button element
+  var deleteBtn = document.createElement('button');
+
+  var editBtn = document.createElement('button');
+  console.log(editBtn);
+
+  editBtn.className = 'btn btn-primary btn-sm float-right edit';
+
+  // Add classes to del button
+  deleteBtn.className = 'btn btn-danger btn-sm float-right delete';
+
+  // Append text node
+  deleteBtn.appendChild(document.createTextNode('X'));
+
+  editBtn.appendChild(document.createTextNode('Edit'))
+
+  // Append button to li
+  li.appendChild(deleteBtn);
+
+  li.appendChild(editBtn);
+
+  // Append li to list
+  itemList.appendChild(li);
 }
 
-var newList = document.createElement('li');
-var mainList = document.getElementById('items');
-mainList.appendChild(newList);
-newList.classList="new-list";
-newList.style.listStyle="none";
-newList.style.width="auto";
-newList.style.height="50px";
-newList.style.marginTop="5px";
-newList.style.border="0.5px solid grey";
 
-var newLists = document.getElementsByTagName('li');
-newLists[4].style.background="yellow";
-
-var queryList = document.querySelectorAll('li');
-queryList[1].style.background="green";
-queryList[2].style.display="none";
-
-var odd = document.querySelectorAll("li:nth-child(odd");
-
-for(let i=0;i<odd.length;i++){
-    odd[i].style.background="green";
+// Remove item
+function removeItem(e){
+  if(e.target.classList.contains('delete')){
+    if(confirm('Are You Sure?')){
+      var li = e.target.parentElement;
+      itemList.removeChild(li);
+    }
+  }
 }
 
-var itemsList = document.querySelector('#items');
-// console.log(itemsList.parentNode);
-
-// itemsList.parentNode.style.background="grey";
-// console.log(itemsList.parentNode.parentNode);
-
-// var itemsList = document.querySelector('#items');
-// console.log(itemsList.parentElement);
-
-// itemsList.parentElement.style.background="grey";
-// console.log(itemsList.parentElement.parentElement);
-
-// console.log(itemsList.childNodes)
-
-//    console.log(itemsList.children)
-//    itemsList.children[1].style.background="yellow";
-//    console.log(itemsList.firstElementChild);
-//    itemsList.firstElementChild.textContent="Hello Text is Changed"
-//    itemsList.lastElementChild.textContent="Hello Text is Changed"
-
-
-// console.log(itemsList.nextSibling);
-// console.log(itemsList.nextElementSibling);
-// console.log(itemsList.previuosSibling);
-// console.log(itemsList.previousElementSibling);
-// itemsList.previousElementSibling.style.color = "red";
-
-var newDiv = document.createElement('div');
-newDiv.className="hello";
-console.log(newDiv);
-newDiv.setAttribute("title","Hellow DIV");
-
-var newDivText = document.createTextNode("Hello");
-newDiv.appendChild(newDivText);
-
-var container = document.querySelector('header .container');
-var h1 = document.querySelector('header h1');
-
-container.insertBefore(newDiv,h1);
-
-newDiv.style.fontSize="30px";
-
-var newList = document.createElement("li");
-newList.textContent="hello";
-var parent= document.querySelector('#items');
-console.log(parent);
-parent.prepend(newList);
+// Filter Items
+function filterItems(e){
+  // convert text to lowercase
+  var text = e.target.value.toLowerCase();
+  // Get lis
+  var items = itemList.getElementsByTagName('li');
+  // Convert to an array
+  Array.from(items).forEach(function(item){
+    var itemName = item.firstChild.textContent;
+    if(itemName.toLowerCase().indexOf(text) != -1){
+      item.style.display = 'block';
+    } else {
+      item.style.display = 'none';
+    }
+  });
+}
